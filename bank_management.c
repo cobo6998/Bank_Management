@@ -8,6 +8,11 @@ void fordelay(int j)
          k=i;
 }
 
+void close(void)
+{
+    printf("\n\n\n\nThis C Project is developed by Bochoris and Anesti!");
+}
+
 int main()
 {
     char pass[16], password[16]="anesti_bochoris";
