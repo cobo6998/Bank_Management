@@ -1,6 +1,13 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<windows.h>
+
+void fordelay(int j)
+{   int i,k;
+    for(i=0;i<j;i++)
+         k=i;
+}
+
 int main()
 {
     char pass[16], password[16]="anesti_bochoris";
