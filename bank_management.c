@@ -138,41 +138,57 @@ void menu(void)
             break;
     }
 }
-    
-int main()
-    
+
+//Start of the main program    
+int main()    
 {
+    //define two variables for credentials 
     char pass[16], password[16]="anesti_bochoris";
     int i=0;
     printf("\n\n\t\tEnter the password to login:");
     scanf("%s",pass);
+    //check of password
     if (strcmp(pass,password)==0)
+        /*In case of correct password, the program prints a message in the screen
+        and then run 6 times the fordelay() function and prints 6 '.'. Then it clears the 
+        screen and calls the function menu().*/
         {printf("\n\nCorrect Password!\nLOADING");
         for(i=0;i<=6;i++)
         {
+            //Call the function fordelay()
             fordelay(100000000);
             printf(".");
         }
-                system("cls");
+            //Clear the screen
+            system("cls");
+            //Call the function menu()
             menu();
         }
     else
+        /*In case of incorrect password, the program prints a message in the screen
+    Then prompt to type 1 for another try or 0 for exit.*/
         {   printf("\n\nWrong password!!\a\a\a");
             login_try:
             printf("\nEnter 1 to try again and 0 to exit:");
             scanf("%d",&main_exit);
             if (main_exit==1)
+                /* In case 1 has been typed it clears the screen 
+        and calls the function menu().*/
                     {
-
                         system("cls");
                         main();
                     }
 
             else if (main_exit==0)
+                /* In case 0 has been typed it clears the screen 
+        and calls the function close().*/
                     {
                     system("cls");
                     close();}
             else
+                 /* In case any other character have been typed it prints a message, 
+        calls the function fordelay(), clears the screen and loop at the prompt for
+        1 or 0 choice. */
                     {printf("\nInvalid!");
                     fordelay(1000000000);
                     system("cls");
