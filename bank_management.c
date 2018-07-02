@@ -4,7 +4,7 @@
 
 void menu();
 
-
+//The function foredelay() used for import a delay. This achieved by a loop
 void fordelay(int j)
 {   int i,k;
     for(i=0;i<j;i++)
@@ -103,39 +103,56 @@ void view_list()
         goto view_list_invalid;
     }
 }
-
+//Print a message with the developers before exit
 void close(void)
 {
     printf("\n\n\n\nThis C Project is developed by Bochoris and Anesti!");
 }
-
+/* The menu() function provides the initial menu for the program after a success login
+It has 7 choices which are leading in relative actions*/
 void menu(void)
 {
     int choice;
+    //Clear the screen
     system("cls");
+    //Set the font color blue
     system("color 9");
+    //Print the Headline of the menu
     printf("\n\n\t\t\tCUSTOMER ACCOUNT BANKING MANAGEMENT SYSTEM");
     printf("\n\n\n\t\t\t\xB2\xB2\xB2\xB2\xB2\xB2\xB2 WELCOME TO THE MAIN MENU \xB2\xB2\xB2\xB2\xB2\xB2\xB2");
     printf("\n\n\t\t1.Create new account\n\t\t2.Update information of existing account\n\t\t3.For transactions\n\t\t4.Check the details of existing account\n\t\t5.Removing existing account\n\t\t6.View customer's list\n\t\t7.Exit\n\n\n\n\n\t\t Enter your choice:");
     scanf("%d",&choice);
     
     system("cls");
+    //Depending with the choice it calls the relative function 
     switch(choice)
     {
-            case 1:new_acc();
+            case 1:
+            new_acc();
             break;
-            case 2:edit();
+            case 2:
+            edit();
             break;
-            case 3:transact();
+            case 3:
+            transact();
             break;
-            case 4:see();
+            case 4:
+            see();
             break;
-            case 5:erase();
+            case 5:
+            erase();
             break;
-            case 6:view_list();
+            case 6:
+            view_list();
             break;
-            case 7:close();
+            case 7:
+            close();
             break;
+            default:
+            printf("\nInvalid! Try again...");
+            fordelay(1000000000);
+            system("cls");
+            menu();
     }
 }
 
