@@ -4,6 +4,20 @@
 
 void menu();
 
+struct
+{
+    char name[60];
+    int acc_no,age;
+    char address[60];
+    char citizenship[15];
+    double phone;
+    char acc_type[10];
+    float amt;
+    struct date dob;
+    struct date deposit;
+    struct date withdraw;
+} add,upd,check,rem,transaction;
+    
 //The function foredelay() used for import a delay. This achieved by a loop
 void fordelay(int j)
 {   int i,k;
@@ -108,6 +122,59 @@ void close(void)
 {
     printf("\n\n\n\nThis C Project is developed by Bochoris and Anesti!");
 }
+
+void erase(void)
+{
+    FILE *old,*newrec;
+    int test=0;
+    old=fopen("record.dat","r");
+    newrec=fopen("new.dat","w");
+    printf("Enter the account no. of the customer you want to delete:");
+    scanf("%d",&rem.acc_no);
+    while (fscanf(old,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d",&add.acc_no,add.name,&add.dob.month,&add.dob.day,&add.dob.year,&add.age,add.address,add.citizenship,&add.phone,add.acc_type,&add.amt,&add.deposit.month,&add.deposit.day,&add.deposit.year)!=EOF)
+    {
+        if(add.acc_no!=rem.acc_no)
+            fprintf(newrec,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",add.acc_no,add.name,add.dob.month,add.dob.day,add.dob.year,add.age,add.address,add.citizenship,add.phone,add.acc_type,add.amt,add.deposit.month,add.deposit.day,add.deposit.year);
+        else
+        {
+            test++;
+            printf("\nRecord deleted successfully!\n");
+        }
+    }
+    fclose(old);
+    fclose(newrec);
+    remove("record.dat");
+    rename("new.dat","record.dat");
+    if(test==0)
+    {
+        printf("\nRecord not found!!\a\a\a");
+        erase_invalid:
+        printf("\nEnter 0 to try again,1 to return to main menu and 2 to exit:");
+        scanf("%d",&main_exit);
+        if (main_exit==1)
+            menu();
+        else if (main_exit==2)
+            close();
+        else if(main_exit==0)
+            erase();
+        else
+        {
+            printf("\nInvalid!\a");
+            goto erase_invalid;
+        }
+    }
+    else
+    {
+        printf("\nEnter 1 to go to the main menu and 0 to exit:");
+        scanf("%d",&main_exit);
+        system("cls");
+        if (main_exit==1)
+            menu();
+        else
+            close();
+    }
+}
+
 /* The menu() function provides the initial menu for the program after a success login
 It has 7 choices which are leading in relative actions*/
 void menu(void)
@@ -116,7 +183,7 @@ void menu(void)
     //Clear the screen
     system("cls");
     //Set the font color blue
-    system("color 9");
+    system("color 97");
     //Print the Headline of the menu
     printf("\n\n\t\t\tCUSTOMER ACCOUNT BANKING MANAGEMENT SYSTEM");
     printf("\n\n\n\t\t\t\xB2\xB2\xB2\xB2\xB2\xB2\xB2 WELCOME TO THE MAIN MENU \xB2\xB2\xB2\xB2\xB2\xB2\xB2");
