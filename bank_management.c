@@ -429,7 +429,7 @@ void menu(void)
     //Clear the screen
     system("cls");
     //Set the font color blue
-    system("color 97");
+    system("color 0");
     //Print the Headline of the menu
     printf("\n\n\t\t\tCUSTOMER ACCOUNT BANKING MANAGEMENT SYSTEM");
     printf("\n\n\n\t\t\t\xB2\xB2\xB2\xB2\xB2\xB2\xB2 WELCOME TO THE MAIN MENU \xB2\xB2\xB2\xB2\xB2\xB2\xB2");
@@ -472,6 +472,8 @@ void menu(void)
 //Start of the main program    
 int main()    
 {
+    //for greek characters
+    system("chcp 1253>nul");
     //define two variables for credentials 
     char pass[16], password[16]="anesti_bochoris";
     int i=0;
