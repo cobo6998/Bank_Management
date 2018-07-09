@@ -5,13 +5,16 @@
 int i,j;
 int main_exit;
 
+//Declaration of function menu
 void menu();
 
+//Data structure for the date 
 struct date
 {
     int month,day,year;
 };
 
+//Data structure for the account element
 struct
 {
     char name[60];
@@ -32,6 +35,7 @@ void close(void)
     printf("\n\n\n\nThis C Project is developed by Anesti and Bochoris!");
 }
 
+//Calculate the interest
 float interest(float t,float amount,int rate)
 {
     float SI;
@@ -45,8 +49,12 @@ void fordelay(int j)
     for(i=0;i<j;i++);
 }
 
+/*The new_acc function creates a new customer account. It asks for some personal
+and banking details such as name, date of birth, citizenship number, address and
+phone number*/
 void new_acc()
 {
+    //handling the file for the records
     FILE *ptr;
     
     ptr=fopen("record.dat","a+");
@@ -58,7 +66,8 @@ void new_acc()
     printf("\nEnter the account number:");
     scanf("%d",&check.acc_no);
     while(fscanf(ptr,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",&add.acc_no,add.name,&add.dob.month,&add.dob.day,&add.dob.year,&add.age,add.address,add.citizenship,&add.phone,add.acc_type,&add.amt,&add.deposit.month,&add.deposit.day,&add.deposit.year)!=EOF)
-    {
+    {   
+        //Check if the new account number is already exists
         if (check.acc_no==add.acc_no)
         {
             printf("Account no. already in use!");
@@ -81,13 +90,16 @@ void new_acc()
     scanf("%lf",&add.phone);
     printf("\nEnter the amount to deposit:€");
     scanf("%f",&add.amt);
+    //Select the type of account
     printf("\nType of account:\n\t#Saving\n\t#Current\n\t#Fixed1(for 1 year)\n\t#Fixed2(for 2 years)\n\t#Fixed3(for 3 years)\n\n\tEnter your choice:");
     scanf("%s",add.acc_type);
     
+    //Write the data to the file
     fprintf(ptr,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",add.acc_no,add.name,add.dob.month,add.dob.day,add.dob.year,add.age,add.address,add.citizenship,add.phone,add.acc_type,add.amt,add.deposit.month,add.deposit.day,add.deposit.year);
     
     fclose(ptr);
     printf("\nAccount created successfully!");
+    //Error handling. Redirect in case of invalid creation of the new account
     add_invalid:
     printf("\n\n\n\t\tEnter 1 to go to the main menu and 0 to exit:");
     scanf("%d",&main_exit);
@@ -103,9 +115,11 @@ void new_acc()
     }
 }
 
-
+/*This function displays the customer's banking information such as account
+number, name, address and phone number*/
 void view_list()
 {
+    //handling the file for the records
     FILE *view;
     view=fopen("record.dat","r");
     int test=0;
@@ -123,6 +137,7 @@ void view_list()
         printf("\nNO RECORDS!!\n");
     }
     
+    //Error handling. Redirect in case no records are found
     view_list_invalid:
     printf("\n\nEnter 1 to go to the main menu and 0 to exit:");
     scanf("%d",&main_exit);
@@ -138,7 +153,81 @@ void view_list()
     }
 }
 
+/*The function changes the address and the phone number of a 
+paricular customer account*/
+void edit(void)
+{
+    int choice,test=0;
+    FILE *old,*newrec;
+    old=fopen("record.dat","r");
+    newrec=fopen("new.dat","w");
 
+    printf("\nEnter the account no. of the customer whose info you want to change:");
+    scanf("%d",&upd.acc_no);
+    while(fscanf(old,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d",&add.acc_no,add.name,&add.dob.month,&add.dob.day,&add.dob.year,&add.age,add.address,add.citizenship,&add.phone,add.acc_type,&add.amt,&add.deposit.month,&add.deposit.day,&add.deposit.year)!=EOF)
+    {
+        if (add.acc_no==upd.acc_no)
+        {   test=1;
+            printf("\nWhich information do you want to change?\n1.Address\n2.Phone\n\nEnter your choice(1 for address and 2 for phone):");
+            scanf("%d",&choice);
+            system("cls");
+            if(choice==1)
+                {printf("Enter the new address:");
+                scanf("%s",upd.address);
+                fprintf(newrec,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",add.acc_no,add.name,add.dob.month,add.dob.day,add.dob.year,add.age,upd.address,add.citizenship,add.phone,add.acc_type,add.amt,add.deposit.month,add.deposit.day,add.deposit.year);
+                system("cls");
+                printf("Changes saved!");
+                }
+            else if(choice==2)
+                {
+                    printf("Enter the new phone number:");
+                scanf("%lf",&upd.phone);
+                fprintf(newrec,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",add.acc_no,add.name,add.dob.month,add.dob.day,add.dob.year,add.age,add.address,add.citizenship,upd.phone,add.acc_type,add.amt,add.deposit.month,add.deposit.day,add.deposit.year);
+                system("cls");
+                printf("Changes saved!");
+                }
+
+        }
+        else
+            fprintf(newrec,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d\n",add.acc_no,add.name,add.dob.month,add.dob.day,add.dob.year,add.age,add.address,add.citizenship,add.phone,add.acc_type,add.amt,add.deposit.month,add.deposit.day,add.deposit.year);
+    }
+    fclose(old);
+    fclose(newrec);
+    remove("record.dat");
+    rename("new.dat","record.dat");
+
+//Error handling. In case of record not found   
+if(test!=1)
+        {   system("cls");
+            printf("\nRecord not found!!\a\a\a");
+            edit_invalid:
+              printf("\nEnter 0 to try again,1 to return to main menu and 2 to exit:");
+              scanf("%d",&main_exit);
+              system("cls");
+                 if (main_exit==1)
+
+                    menu();
+                else if (main_exit==2)
+                    close();
+                else if(main_exit==0)
+                    edit();
+                else
+                    {printf("\nInvalid!\a");
+                    goto edit_invalid;}
+        }
+    else
+        {printf("\n\n\nEnter 1 to go to the main menu and 0 to exit:");
+        scanf("%d",&main_exit);
+        system("cls");
+        if (main_exit==1)
+            menu();
+        else
+            close();
+        }
+}
+
+/*With this function we can deposit and withdraw money
+to and from a particular customer account*/
 void transact(void)
 {
     int choice,test=0;
@@ -187,6 +276,7 @@ void transact(void)
     fclose(newrec);
     remove("record.dat");
     rename("new.dat","record.dat");
+    //Error handling. In case of record not found
     if(test!=1)
     {
         printf("\n\nRecord not found!!");
@@ -217,11 +307,8 @@ void transact(void)
             close();
     }
 }
-        
-    
- 
 
-
+//Deleting a customer account
 void erase(void)
 {
     FILE *old,*newrec;
@@ -244,6 +331,7 @@ void erase(void)
     fclose(newrec);
     remove("record.dat");
     rename("new.dat","record.dat");
+    //Error handling. In case of record not found
     if(test==0)
     {
         printf("\nRecord not found!!\a\a\a");
@@ -274,6 +362,10 @@ void erase(void)
     }
 }
 
+/*The function shows account number, name, date of birth, citizenship
+number, age, address, phone number, type of account, amount deposited and 
+date of deposit. It also displays the amount of interest corresponding to
+a particular account type*/
 void see(void)
 {
     FILE *ptr;
@@ -379,6 +471,7 @@ void see(void)
         }
     }
     fclose(ptr);
+    //Error handling. In case of record not found
     if(test!=1)
     {
         system("cls");
@@ -415,11 +508,7 @@ void see(void)
             close();
         }
     }
-        
-        
-                    
-
-
+                         
 /* The menu() function provides the initial menu for the program after a success login
 It has 7 choices which are leading in relative actions*/
 void menu(void)
@@ -483,7 +572,8 @@ int main()
         /*In case of correct password, the program prints a message in the screen
         and then run 6 times the fordelay() function and prints 6 '.'. Then it clears the 
         screen and calls the function menu().*/
-        {printf("\n\nCorrect Password!\nLOADING");
+        {
+        printf("\n\nCorrect Password!\nLOADING");
         for(i=0;i<=6;i++)
         {
             //Call the function fordelay()
@@ -498,7 +588,8 @@ int main()
     else
         /*In case of incorrect password, the program prints a message in the screen
     Then prompt to type 1 for another try or 0 for exit.*/
-        {   printf("\n\nWrong password!!\a\a\a");
+        {   
+            printf("\n\nWrong password!!\a\a\a");
             login_try:
             printf("\nEnter 1 to try again and 0 to exit:");
             scanf("%d",&main_exit);
@@ -509,22 +600,23 @@ int main()
                         system("cls");
                         main();
                     }
-
             else if (main_exit==0)
                 /* In case 0 has been typed it clears the screen 
         and calls the function close().*/
                     {
                     system("cls");
-                    close();}
+                    close();
+                    }
             else
                  /* In case any other character have been typed it prints a message, 
         calls the function fordelay(), clears the screen and loop at the prompt for
         1 or 0 choice. */
-                    {printf("\nInvalid!");
+                    {
+                    printf("\nInvalid!");
                     fordelay(1000000000);
                     system("cls");
-                    goto login_try;}
-
+                    goto login_try;
+                    }
         }
         return 0;
 }
