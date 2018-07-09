@@ -25,6 +25,14 @@ struct
     struct date deposit;
     struct date withdraw;
 } add,upd,check,rem,transaction;
+
+
+float interest(float t,float amount,int rate)
+{
+    float SI;
+    SI=(rate*t*amount)/100.0;
+    return (SI);
+}
     
 //The function foredelay() used for import a delay. This achieved by a loop
 void fordelay(int j)
