@@ -137,11 +137,7 @@ void view_list()
         goto view_list_invalid;
     }
 }
-//Print a message with the developers before exit
-void close(void)
-{
-    printf("\n\n\n\nThis C Project is developed by Bochoris and Anesti!");
-}
+
 
 void transact(void)
 {
