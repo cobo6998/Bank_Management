@@ -26,6 +26,11 @@ struct
     struct date withdraw;
 } add,upd,check,rem,transaction;
 
+//Print a message with the developers before exit
+void close(void)
+{
+    printf("\n\n\n\nThis C Project is developed by Anesti and Bochoris!");
+}
 
 float interest(float t,float amount,int rate)
 {
@@ -36,20 +41,18 @@ float interest(float t,float amount,int rate)
     
 //The function foredelay() used for import a delay. This achieved by a loop
 void fordelay(int j)
-{   int i,k;
-    for(i=0;i<j;i++)
-         k=i;
+{   int i;
+    for(i=0;i<j;i++);
 }
 
 void new_acc()
 {
-    int choice;
     FILE *ptr;
     
     ptr=fopen("record.dat","a+");
     account_no:
     system("cls");
-    printf("\t\t\t\xB2\xB2\xB2\ ADD RECORD  \xB2\xB2\xB2\xB2");
+    printf("\t\t\t ***ADD RECORD*** ");
     printf("\n\n\nEnter today's date(mm/dd/yyyy):");
     scanf("%d/%d/%d",&add.deposit.month,&add.deposit.day,&add.deposit.year);
     printf("\nEnter the account number:");
@@ -335,7 +338,7 @@ void see(void)
     else if (choice==2)
     {
         printf("Enter the name:");
-        scanf("%s",&check.name);
+        scanf("%s",check.name);
         while (fscanf(ptr,"%d %s %d/%d/%d %d %s %s %lf %s %f %d/%d/%d",&add.acc_no,add.name,&add.dob.month,&add.dob.day,&add.dob.year,&add.age,add.address,add.citizenship,&add.phone,add.acc_type,&add.amt,&add.deposit.month,&add.deposit.day,&add.deposit.year)!=EOF)
         {
             if(strcmpi(add.name,check.name)==0)
